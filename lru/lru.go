@@ -45,9 +45,6 @@ func (l *LRU) Get(key string) ([]byte, bool) {
 
 // RemoveOldest remove entry from linklist back
 func (l *LRU) RemoveOldest() {
-	l.mu.Lock()
-	defer l.mu.Unlock()
-
 	ele := l.list.Back() //取出链表尾部节点
 	if ele != nil {
 		l.list.Remove(ele) //删除节点
@@ -73,7 +70,7 @@ func (l *LRU) Add(key string, value []byte) {
 	} else {
 		ele := l.list.PushFront(&Entry{Key: key, Value: value})
 		l.cache[key] = ele
-		l.curByte = int64(len(key)) + int64(len(value))
+		l.curByte += int64(len(key)) + int64(len(value))
 	}
 
 	// 已使用字节数大于最大字节数时，需要移除链表尾部节点，知到已使用字节数小于最大字节数
