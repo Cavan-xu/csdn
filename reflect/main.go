@@ -8,12 +8,12 @@ import (
 )
 
 func main() {
-	//reflectTry()
-	//useReflectKind()
-	//userReflectStruct()
-	//reflectUpdateField()
+	reflectTry()
+	useReflectKind()
+	userReflectStruct()
+	reflectUpdateField()
 	useReflectGetTag()
-	//useReflectMethodCall()
+	useReflectMethodCall()
 }
 
 // use reflect get variable type and value
