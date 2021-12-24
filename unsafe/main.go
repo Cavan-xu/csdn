@@ -20,11 +20,12 @@ func operateVariable() {
 	var a int32 = 8
 	var f int64 = 20
 
+	// int32 的指针
 	ptr := &a
-	fmt.Println(ptr)
 
 	// 先将 *int64 类型转化为 *Arbitrary 类型再转化为 *int32类型
-	*(*int32)(unsafe.Pointer(&f)) = 10
+	ptr = (*int32)(unsafe.Pointer(&f))
+	*ptr = 10
 
 	fmt.Println(a)
 	fmt.Println(f)
@@ -49,13 +50,13 @@ func StringToBytes(str string) []byte {
 	// 切片的底层数组、len字段，指向字符串的底层数组，len字段
 	*(*string)(unsafe.Pointer(&b)) = str
 
-	// 切片的 cap 字段赋值为 len(str)的长度
+	// 切片的 cap 字段赋值为 len(str)的长度，切片的指针、len 字段各占八个字节，直接偏移16个字节
 	*(*int)(unsafe.Pointer(uintptr(unsafe.Pointer(&b)) + 2*uintptr(8))) = len(str)
 
 	return b
 }
 
 func BytesToString(data []byte) string {
-	// 直接转化
+	// 直接转换
 	return *(*string)(unsafe.Pointer(&data))
 }
